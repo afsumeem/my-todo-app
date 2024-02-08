@@ -29,8 +29,13 @@ const TodoLists = () => {
     }
   };
 
+  //completed tasks
+  const completedTasks = tasks.filter((task) => task.isCompleted === true);
+
   return (
     <div>
+      <h2>Total tasks: {tasks.length}</h2>
+      <h2>Completed tasks: {completedTasks.length}</h2>
       {tasks.map((task) => (
         <div
           key={task.id}
