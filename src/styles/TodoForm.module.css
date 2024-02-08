@@ -1,0 +1,19 @@
+.low input:checked {
+    background-color: #066902 !important;
+    border-color: #6bffae !important;
+    box-shadow: none !important;
+  }
+  
+  .medium input:checked {
+    background-color: #c9aa1f !important;
+    border-color: #fdff6b !important;
+    box-shadow: none !important;
+  }
+  
+  .high input:checked {
+    background-color: #c9251f !important;
+    border-color: #ff7c6b !important;
+  
+    box-shadow: none !important;
+  }
+  
