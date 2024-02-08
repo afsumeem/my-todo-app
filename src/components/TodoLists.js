@@ -1,4 +1,7 @@
-import { toggleTaskCompletion } from "@/redux/features/tasks/taskSlice";
+import {
+  deleteTask,
+  toggleTaskCompletion,
+} from "@/redux/features/tasks/taskSlice";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,6 +11,9 @@ const TodoLists = () => {
 
   const handleTaskCompletionToggle = (taskId) => {
     dispatch(toggleTaskCompletion(taskId));
+  };
+  const handleDeleteTask = (taskId) => {
+    dispatch(deleteTask(taskId));
   };
 
   const getPriorityColor = (priority) => {
@@ -39,7 +45,7 @@ const TodoLists = () => {
           >
             {task.isCompleted ? "Completed" : "Not Completed"}
           </button>
-          <button>Delete task</button>
+          <button onClick={() => handleDeleteTask(task.id)}>Delete task</button>
         </div>
       ))}
     </div>
