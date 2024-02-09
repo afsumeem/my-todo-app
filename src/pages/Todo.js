@@ -7,9 +7,9 @@ const TodoPage = () => {
   //   const [tasks, setTasks] = useState({});
   return (
     <main
-      className={`${styles.todoContainer} d-flex justify-content-center align-items-center `}
+      className={`${styles.todoContainer} d-flex justify-content-center align-items-center`}
     >
-      <div className={`${styles.heroSection} px-4`}>
+      <div className={`${styles.heroSection} px-4 rounded-3`}>
         <h3 className="fw-bold text-center mt-4">MY TODO</h3>
         <div>
           <TodoForm />

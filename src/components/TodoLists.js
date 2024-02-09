@@ -7,6 +7,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/styles/TodoLists.module.css";
+import { FaEdit } from "react-icons/fa";
+import { ImCancelCircle } from "react-icons/im";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { LuCheckCheck } from "react-icons/lu";
 
 //to do list component start
 
@@ -118,26 +122,81 @@ const TodoLists = () => {
       {filteredTask.map((task) => (
         <div
           key={task.id}
-          style={{ border: `1px solid ${getPriorityColor(task.priority)}` }}
-          className="m-2 p-2"
+          style={{ border: `2px solid ${getPriorityColor(task.priority)}` }}
+          className="m-2 p-2 rounded-3 shadow bg-light"
         >
-          <li>{task.title}</li>
+          <div className="d-flex justify-content-between align-items-center">
+            <p className="m-0">
+              <span>{task.title}</span>
+            </p>
+            <div>
+              <Button
+                title="Click to Complete"
+                onClick={() => handleTaskCompletionToggle(task.id)}
+                disabled={task.isCompleted}
+                className={`${
+                  task.isCompleted
+                    ? "border-0 bg-transparent fs-4 text-success"
+                    : "fs-6 btn-sm"
+                }`}
+              >
+                {task.isCompleted ? <LuCheckCheck /> : "OnGoing.."}
+              </Button>
+
+              <Button
+                title="Edit task"
+                onClick={() => handleEditClick(task.id)}
+                className={`bg-transparent border-0 text-primary fs-5 ${
+                  editTaskId === task.id ? "d-none" : ""
+                }`}
+              >
+                <FaEdit />
+              </Button>
+
+              <Button
+                title="Cancel Edit"
+                onClick={() => handleCancelEdit()}
+                className={`bg-transparent text-danger fs-5 border-0 ${
+                  editTaskId === task.id ? "" : "d-none"
+                }`}
+              >
+                <ImCancelCircle />
+              </Button>
+              <Button
+                title="Delete Task task"
+                onClick={() => handleDeleteTask(task.id)}
+                className="bg-transparent text-danger border-0 fs-5"
+              >
+                <RiDeleteBin6Line />
+              </Button>
+            </div>
+          </div>
 
           {/*  */}
           {editTaskId === task.id && (
-            <Form onSubmit={handleFormSubmit}>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Title"
-                  defaultValue={task.title}
-                  onChange={(event) => setValue(event.target.value)}
-                />
+            <Form
+              onSubmit={handleFormSubmit}
+              style={{ backgroundColor: "#9068da" }}
+              className=" p-2 my-2 shadow rounded"
+            >
+              <Form.Group className="mb-1" controlId="formBasicEmail">
+                <div className="d-flex gap-4">
+                  <Form.Control
+                    type="text"
+                    placeholder="Update Your Task"
+                    defaultValue={task.title}
+                    onChange={(event) => setValue(event.target.value)}
+                    style={{ backgroundColor: "#efe7ff" }}
+                  />
+                  <Button className={styles.addTaskBtn} type="submit">
+                    Update
+                  </Button>
+                </div>
               </Form.Group>
-              <div className="mb-3">
+
+              <div>
                 <Form.Check
-                  // className={styles.low}
+                  className={`${styles.low} text-success fw-bold`}
                   inline
                   label="Low"
                   name="group1"
@@ -147,7 +206,7 @@ const TodoLists = () => {
                   onChange={() => setPriority("low")}
                 />
                 <Form.Check
-                  // className={styles.medium}
+                  className={`${styles.medium} fw-bold`}
                   //   className="medium"
                   inline
                   label="Medium"
@@ -158,7 +217,7 @@ const TodoLists = () => {
                   onChange={() => setPriority("medium")}
                 />
                 <Form.Check
-                  // className={styles.high}
+                  className={`${styles.high} text-danger fw-bold`}
                   inline
                   label="High"
                   name="group1"
@@ -168,24 +227,9 @@ const TodoLists = () => {
                   onChange={() => setPriority("high")}
                 />
               </div>
-              <Button variant="primary" type="submit">
-                Update
-              </Button>
             </Form>
           )}
           {/*  */}
-
-          <button
-            onClick={() => handleTaskCompletionToggle(task.id)}
-            disabled={task.isCompleted}
-          >
-            {task.isCompleted ? "Completed" : "Not Completed"}
-          </button>
-
-          <button onClick={() => handleEditClick(task.id)}>Edit task</button>
-          <button onClick={() => handleCancelEdit()}>Cancel Edit</button>
-
-          <button onClick={() => handleDeleteTask(task.id)}>Delete task</button>
         </div>
       ))}
     </div>

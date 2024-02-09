@@ -47,8 +47,14 @@ const TodoForm = () => {
       setPriority(savedTasks[0]?.priority);
     }
   }, []);
+
+  //
+
   return (
-    <div className=" p-2 my-3 shadow rounded">
+    <div
+      className=" p-2 my-3 shadow rounded"
+      style={{ backgroundColor: "#9068da" }}
+    >
       <Form onSubmit={handleFormSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           {/* <Form.Label>Create New Task</Form.Label> */}
@@ -58,6 +64,7 @@ const TodoForm = () => {
               placeholder="Create New Task"
               value={value}
               onChange={(event) => setValue(event.target.value)}
+              style={{ backgroundColor: "#efe7ff" }}
             />
             <Button className={styles.addTaskBtn} type="submit">
               Add
