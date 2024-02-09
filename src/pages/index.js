@@ -1,13 +1,18 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "next/font/google";
-
 import "bootstrap/dist/css/bootstrap.min.css";
-import HomePage from "./Home";
-
-const inter = Inter({ subsets: ["latin"] });
+import { FaArrowRight } from "react-icons/fa";
+import { Button } from "react-bootstrap";
+import TodoPage from "./Todo";
+import { useRouter } from "next/router";
+import styles from "@/styles/Home.module.css";
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push("/Todo");
+  };
   return (
     <>
       <Head>
@@ -16,8 +21,30 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <HomePage />
+      <main
+        className={`${styles.todoContainer} d-flex justify-content-center align-items-center`}
+      >
+        <div className={`${styles.heroSection}`}>
+          <h3 className="fw-bold text-center mt-4">MY TODO</h3>
+          <Image
+            src="/banner.svg"
+            alt="homePageBanner"
+            className="d-block m-auto"
+            width={200}
+            height={200}
+          />
+          <div className={`${styles.startTaskContainer} d-block m-auto p-4`}>
+            <p className="text-center fs-6">
+              This Todo App provides you to manage your tasks effectively.
+            </p>
+            <p className="text-center fs-5 mb-4">
+              Start managing your tasks today!
+            </p>
+          </div>
+          <Button onClick={handleClick} className={styles.getStartedBtn}>
+            <FaArrowRight />
+          </Button>
+        </div>
       </main>
     </>
   );

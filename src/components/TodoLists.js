@@ -4,13 +4,17 @@ import {
   editTask,
   toggleTaskCompletion,
 } from "@/redux/features/tasks/taskSlice";
-import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Form, useAccordionButton } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 const TodoLists = () => {
   const dispatch = useDispatch();
+
   const tasks = useSelector((state) => state.task.tasks);
+  //
+
+  //   // Effect to persist tasks to local storage
 
   //task complete toggle button
   const handleTaskCompletionToggle = (taskId) => {
@@ -33,10 +37,6 @@ const TodoLists = () => {
     setPriority("");
   };
 
-  //   const handleEditTask = (taskId) => {
-  //     dispatch(editTask(taskId));
-  //   };
-
   const [value, setValue] = useState("");
   const [priority, setPriority] = useState("");
 
@@ -47,6 +47,22 @@ const TodoLists = () => {
       handleCancelEdit();
     }
   };
+
+  //filter by priority
+
+  const [selectPriority, setSelectPriority] = useState("");
+
+  const handlePriority = (event) => {
+    setSelectPriority(event.target.value);
+  };
+
+  const filteredTask = selectPriority
+    ? tasks.filter((task) => task.priority === selectPriority)
+    : tasks;
+
+  //     const filteredTask = selectPriority === "all"
+  //   ? tasks
+  //   : tasks.filter((task) => task.priority === selectPriority);
 
   //delete task
   const handleDeleteTask = (taskId) => {
@@ -69,11 +85,29 @@ const TodoLists = () => {
   //completed tasks
   const completedTasks = tasks.filter((task) => task.isCompleted === true);
 
+  //
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+  //
+
   return (
     <div>
+      <Form.Select
+        aria-label="Default select example"
+        onChange={handlePriority}
+      >
+        <option value="all">Filter by Priority</option>
+
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </Form.Select>
+
+      {/*  */}
       <h2>Total tasks: {tasks.length}</h2>
       <h2>Completed tasks: {completedTasks.length}</h2>
-      {tasks.map((task) => (
+      {filteredTask.map((task) => (
         <div
           key={task.id}
           style={{ border: `1px solid ${getPriorityColor(task.priority)}` }}

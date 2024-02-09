@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   tasks: [],
+  //   filteredTasks: [],
 };
 
 export const taskSlice = createSlice({
@@ -39,6 +40,16 @@ export const taskSlice = createSlice({
       const taskIdToDelete = action.payload;
       state.tasks = state.tasks.filter((task) => task.id !== taskIdToDelete);
     },
+    // filterTasksByPriority: (state, action) => {
+    //   const selectedPriority = action.payload;
+    //   if (selectedPriority === "all") {
+    //     state.filteredTasks = state.tasks;
+    //   } else {
+    //     state.filteredTasks = state.tasks.filter(
+    //       (task) => task.priority === selectedPriority
+    //     );
+    //   }
+    // },
   },
 });
 

@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 // import styles from "../styles/TodoForm.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "@/redux/features/tasks/taskSlice";
 
 const TodoForm = () => {
   const [value, setValue] = useState("");
   const [priority, setPriority] = useState("");
   const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.task.tasks);
+
+  //
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -16,10 +19,34 @@ const TodoForm = () => {
       dispatch(
         addTask({ title: value, priority: priority, isCompleted: false })
       );
+      //
+
       setValue("");
       setPriority("");
     }
+    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
+
+    const updatedTasks = savedTasks
+      ? [
+          ...savedTasks,
+          { title: value, priority: priority, isCompleted: false },
+        ]
+      : [{ title: value, priority: priority, isCompleted: false }];
+
+    // Update local storage with the updated tasks array
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
   };
+
+  //
+  //
+  useEffect(() => {
+    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
+    // console.log(savedTasks);
+    if (savedTasks) {
+      setValue(savedTasks[0]?.title);
+      setPriority(savedTasks[0]?.priority);
+    }
+  }, []);
   return (
     <div>
       <Form onSubmit={handleFormSubmit}>
