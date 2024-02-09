@@ -4,7 +4,7 @@ import {
   toggleTaskCompletion,
 } from "@/redux/features/tasks/taskSlice";
 import React, { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Pagination } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/styles/TodoLists.module.css";
 import { FaEdit } from "react-icons/fa";
@@ -59,9 +59,9 @@ const TodoLists = () => {
     setSelectPriority(event.target.value);
   };
 
-  const filteredTask = selectPriority
-    ? tasks.filter((task) => task.priority === selectPriority)
-    : tasks;
+  // const filteredTask = selectPriority
+  //   ? tasks.filter((task) => task.priority === selectPriority)
+  //   : tasks;
 
   //     const filteredTask = selectPriority === "all"
   //   ? tasks
@@ -94,6 +94,42 @@ const TodoLists = () => {
   }, [tasks]);
   //
 
+  //pagination
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const tasksPerPage = 2;
+
+  const indexOfLastTask = currentPage * tasksPerPage;
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+
+  const paginationItems = [];
+  for (
+    let number = 1;
+    number <= Math.ceil(tasks.length / tasksPerPage);
+    number++
+  ) {
+    paginationItems.push(
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
+        onClick={() => setCurrentPage(number)}
+      >
+        {number}
+      </Pagination.Item>
+    );
+  }
+
+  let filteredByPriority = selectPriority
+    ? tasks.filter((task) => task.priority === selectPriority)
+    : tasks;
+
+  const currentTasks = filteredByPriority.slice(
+    indexOfFirstTask,
+    indexOfLastTask
+  );
+
+  //
+
   return (
     <div className="mt-4 my-3 ">
       <hr />
@@ -119,7 +155,7 @@ const TodoLists = () => {
         <p className="m-0 fw-bold">Completed tasks: {completedTasks.length}</p>
       </div>
 
-      {filteredTask.map((task) => (
+      {currentTasks.map((task) => (
         <div
           key={task.id}
           style={{ border: `2px solid ${getPriorityColor(task.priority)}` }}
@@ -232,6 +268,7 @@ const TodoLists = () => {
           {/*  */}
         </div>
       ))}
+      <Pagination size="sm">{paginationItems}</Pagination>
     </div>
   );
 };
