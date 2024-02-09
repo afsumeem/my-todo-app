@@ -1,20 +1,19 @@
 import {
-  addTask,
   deleteTask,
   editTask,
   toggleTaskCompletion,
 } from "@/redux/features/tasks/taskSlice";
 import React, { useEffect, useState } from "react";
-import { Button, Form, useAccordionButton } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import styles from "@/styles/TodoLists.module.css";
+
+//to do list component start
 
 const TodoLists = () => {
   const dispatch = useDispatch();
 
   const tasks = useSelector((state) => state.task.tasks);
-  //
-
-  //   // Effect to persist tasks to local storage
 
   //task complete toggle button
   const handleTaskCompletionToggle = (taskId) => {
@@ -92,21 +91,30 @@ const TodoLists = () => {
   //
 
   return (
-    <div>
-      <Form.Select
-        aria-label="Default select example"
-        onChange={handlePriority}
-      >
-        <option value="all">Filter by Priority</option>
+    <div className="mt-4 my-3 ">
+      <hr />
 
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </Form.Select>
+      <div className="d-flex  justify-content-between ">
+        <h5 className=" fw-bold">Todo Lists</h5>
+        <Form.Select
+          aria-label="Default select example"
+          onChange={handlePriority}
+          className={styles.todoListFilterInput}
+        >
+          <option value="all">Filter by Priority</option>
 
-      {/*  */}
-      <h2>Total tasks: {tasks.length}</h2>
-      <h2>Completed tasks: {completedTasks.length}</h2>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </Form.Select>
+
+        {/*  */}
+      </div>
+      <div className="justify-content-end d-flex gap-3 my-3">
+        <p className="m-0 fw-bold">Total tasks: {tasks.length}</p>
+        <p className="m-0 fw-bold">Completed tasks: {completedTasks.length}</p>
+      </div>
+
       {filteredTask.map((task) => (
         <div
           key={task.id}
