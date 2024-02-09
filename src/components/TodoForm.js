@@ -10,7 +10,7 @@ const TodoForm = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.task.tasks);
 
-  //
+  //handle form submit for add task
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -19,11 +19,12 @@ const TodoForm = () => {
       dispatch(
         addTask({ title: value, priority: priority, isCompleted: false })
       );
-      //
 
       setValue("");
       setPriority("");
     }
+
+    // local storage functionality
     const savedTasks = JSON.parse(localStorage.getItem("tasks"));
 
     const updatedTasks = savedTasks
@@ -33,22 +34,9 @@ const TodoForm = () => {
         ]
       : [{ title: value, priority: priority, isCompleted: false }];
 
-    // Update local storage with the updated tasks array
+    // Update local storage
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
   };
-
-  //
-  //
-  useEffect(() => {
-    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
-    // console.log(savedTasks);
-    if (savedTasks) {
-      setValue(savedTasks[0]?.title);
-      setPriority(savedTasks[0]?.priority);
-    }
-  }, []);
-
-  //
 
   return (
     <div
@@ -57,7 +45,8 @@ const TodoForm = () => {
     >
       <Form onSubmit={handleFormSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          {/* <Form.Label>Create New Task</Form.Label> */}
+          {/* add task form */}
+
           <div className="d-flex gap-4">
             <Form.Control
               type="text"
@@ -66,13 +55,18 @@ const TodoForm = () => {
               onChange={(event) => setValue(event.target.value)}
               style={{ backgroundColor: "#efe7ff" }}
             />
+
+            {/* add task button */}
             <Button className={styles.addTaskBtn} type="submit">
               Add
             </Button>
           </div>
         </Form.Group>
 
+        {/*  priority options*/}
+
         <div className="mb-2">
+          {/* low */}
           <Form.Check
             className={`${styles.low} text-success fw-bold`}
             inline
@@ -83,9 +77,10 @@ const TodoForm = () => {
             checked={priority === "low"}
             onChange={() => setPriority("low")}
           />
+
+          {/* medium */}
           <Form.Check
             className={`${styles.medium} fw-bold`}
-            //   className="medium"
             inline
             label="Medium"
             name="group1"
@@ -94,6 +89,8 @@ const TodoForm = () => {
             checked={priority === "medium"}
             onChange={() => setPriority("medium")}
           />
+
+          {/* high */}
           <Form.Check
             className={`${styles.high} text-danger fw-bold`}
             inline

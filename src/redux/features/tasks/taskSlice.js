@@ -9,6 +9,7 @@ export const taskSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
+    // add task reducer
     addTask: (state, action) => {
       const { title, priority, isCompleted } = action.payload;
       const id =
@@ -21,6 +22,8 @@ export const taskSlice = createSlice({
         isCompleted: isCompleted || false,
       });
     },
+
+    // toggle task reducer
     toggleTaskCompletion: (state, action) => {
       const taskId = action.payload;
       const taskToUpdate = state.tasks.find((task) => task.id === taskId);
@@ -28,6 +31,8 @@ export const taskSlice = createSlice({
         taskToUpdate.isCompleted = !taskToUpdate.isCompleted;
       }
     },
+
+    // edit task reducer
     editTask: (state, action) => {
       const { id, title, priority } = action.payload;
       const taskToEdit = state.tasks.find((task) => task.id === id);
@@ -36,20 +41,12 @@ export const taskSlice = createSlice({
         taskToEdit.priority = priority;
       }
     },
+
+    // delete task reducer
     deleteTask: (state, action) => {
       const taskIdToDelete = action.payload;
       state.tasks = state.tasks.filter((task) => task.id !== taskIdToDelete);
     },
-    // filterTasksByPriority: (state, action) => {
-    //   const selectedPriority = action.payload;
-    //   if (selectedPriority === "all") {
-    //     state.filteredTasks = state.tasks;
-    //   } else {
-    //     state.filteredTasks = state.tasks.filter(
-    //       (task) => task.priority === selectedPriority
-    //     );
-    //   }
-    // },
   },
 });
 
