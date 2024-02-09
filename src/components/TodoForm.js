@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import styles from "../styles/TodoForm.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "@/redux/features/tasks/taskSlice";
@@ -8,6 +8,7 @@ const TodoForm = () => {
   const [value, setValue] = useState("");
   const [priority, setPriority] = useState("");
   const dispatch = useDispatch();
+  const [priorityError, setPriorityError] = useState(false);
   const tasks = useSelector((state) => state.task.tasks);
 
   //handle form submit for add task
@@ -22,6 +23,9 @@ const TodoForm = () => {
 
       setValue("");
       setPriority("");
+      setPriorityError(false);
+    } else {
+      setPriorityError(true);
     }
 
     // local storage functionality
@@ -41,7 +45,7 @@ const TodoForm = () => {
   return (
     <div
       className=" p-2 my-3 shadow rounded"
-      style={{ backgroundColor: "#9068da" }}
+      style={{ backgroundColor: "#9d7add" }}
     >
       <Form onSubmit={handleFormSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -75,7 +79,10 @@ const TodoForm = () => {
             type="radio"
             id="inline-radio-1"
             checked={priority === "low"}
-            onChange={() => setPriority("low")}
+            onChange={() => {
+              setPriority("low");
+              setPriorityError(false);
+            }}
           />
 
           {/* medium */}
@@ -87,7 +94,10 @@ const TodoForm = () => {
             type="radio"
             id="inline-radio-2"
             checked={priority === "medium"}
-            onChange={() => setPriority("medium")}
+            onChange={() => {
+              setPriority("medium");
+              setPriorityError(false);
+            }}
           />
 
           {/* high */}
@@ -99,8 +109,16 @@ const TodoForm = () => {
             type="radio"
             id="inline-radio-3"
             checked={priority === "high"}
-            onChange={() => setPriority("high")}
+            onChange={() => {
+              setPriority("high");
+              setPriorityError(false);
+            }}
           />
+          {priorityError && (
+            <p className="text-danger m-0 text-center  fw-bold">
+              Please select a priority!
+            </p>
+          )}
         </div>
       </Form>
     </div>
