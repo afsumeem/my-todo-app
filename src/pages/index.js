@@ -3,7 +3,6 @@ import Image from "next/image";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaArrowRight } from "react-icons/fa";
 import { Button } from "react-bootstrap";
-import TodoPage from "./Todo";
 import { useRouter } from "next/router";
 import styles from "@/styles/Home.module.css";
 

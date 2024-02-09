@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-// import styles from "../styles/TodoForm.module.css";
+import styles from "../styles/TodoForm.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "@/redux/features/tasks/taskSlice";
 
@@ -48,20 +48,26 @@ const TodoForm = () => {
     }
   }, []);
   return (
-    <div>
+    <div className=" p-2 my-3 shadow rounded">
       <Form onSubmit={handleFormSubmit}>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Title"
-            value={value}
-            onChange={(event) => setValue(event.target.value)}
-          />
+          {/* <Form.Label>Create New Task</Form.Label> */}
+          <div className="d-flex gap-4">
+            <Form.Control
+              type="text"
+              placeholder="Create New Task"
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+            />
+            <Button className={styles.addTaskBtn} type="submit">
+              Add
+            </Button>
+          </div>
         </Form.Group>
-        <div className="mb-3">
+
+        <div className="mb-2">
           <Form.Check
-            // className={styles.low}
+            className={`${styles.low} text-success fw-bold`}
             inline
             label="Low"
             name="group1"
@@ -71,7 +77,7 @@ const TodoForm = () => {
             onChange={() => setPriority("low")}
           />
           <Form.Check
-            // className={styles.medium}
+            className={`${styles.medium} fw-bold`}
             //   className="medium"
             inline
             label="Medium"
@@ -82,7 +88,7 @@ const TodoForm = () => {
             onChange={() => setPriority("medium")}
           />
           <Form.Check
-            // className={styles.high}
+            className={`${styles.high} text-danger fw-bold`}
             inline
             label="High"
             name="group1"
@@ -92,9 +98,6 @@ const TodoForm = () => {
             onChange={() => setPriority("high")}
           />
         </div>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
       </Form>
     </div>
   );
